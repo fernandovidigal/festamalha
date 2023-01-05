@@ -1,0 +1,65 @@
+<% if(percurso.length > 0){ %>
+<% percurso.forEach(fase => { %>
+    <h3><%= (fase.fase != 100) ? fase.fase + 'ª Fase' : 'Fase Final' %></h3>
+    <div class="table__wrapper percursoTorneio_wrapper">
+        <table class="mainTable mainTable_percurso">
+            <thead>
+                <tr>
+                    <th align="left">Classificação</th>
+                    <th>Vitórias</th>
+                    <th>Pontuação</th>
+                    <% if(fase.jogos.length > 0){ %>
+                        <th>Ver Jogos</th>
+                    <% } %>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><%= fase.classificacao.posicao + 'º classificado' %></td>
+                    <td align="center"><%= fase.classificacao.vitorias + ' vitórias' %></td>
+                    <td align="center"><%= fase.classificacao.pontos + ' pontos' %></td>
+                    <% if(fase.jogos.length > 0){ %>
+                        <td class="tw5"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="14" class="loginForm__showPassword--btn" viewBox="0 0 21 14"><path d="M10.5,66.917a4.044,4.044,0,0,0-1.139.182,2.02,2.02,0,0,1,.264.984,2.042,2.042,0,0,1-2.042,2.042,2.02,2.02,0,0,1-.984-.264,4.073,4.073,0,1,0,3.9-2.944Zm10.373,3.551A11.694,11.694,0,0,0,10.5,64,11.7,11.7,0,0,0,.127,70.468a1.179,1.179,0,0,0,0,1.064A11.694,11.694,0,0,0,10.5,78a11.7,11.7,0,0,0,10.373-6.468,1.179,1.179,0,0,0,0-1.064ZM10.5,76.25A9.918,9.918,0,0,1,1.826,71,9.917,9.917,0,0,1,10.5,65.75,9.917,9.917,0,0,1,19.175,71,9.917,9.917,0,0,1,10.5,76.25Z" transform="translate(-0.001 -64)"/></svg></td>
+                    <% } %>
+                </tr>
+            </tbody>
+        </table>
+        <% if(fase.jogos.length > 0){ %>
+        <div class="percursoJogos">
+            <h2>Jogo<%= (fase.fase == 1) ? 's' : '' %> da <%= (fase.fase != 100) ? fase.fase + 'ª Fase' : 'Fase Final' %></h2>
+            <div class="percursoJogosContainer">
+                <table class="mainTable jogosTable">
+                    <thead>
+                        <tr>
+                            <th>Equipa</th>
+                            <th class="mainTable-headerElement-left" colspan="2">Elementos</th>
+                            <th class="mainTable-headerElement-left">Localidade</th>
+                            <th>Parcial 1</th>
+                            <th>Parcial 2</th>
+                            <th>Parcial 3</th>
+                            <th>Pontuação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% fase.jogos.forEach(jogo => { %>
+                            <tr>
+                                <td align="center"><%= jogo.equipas[0].equipaId %><span class="jogosTableBrSeparator"><%= jogo.equipas[1].equipaId %></span></td>
+                                <td><%= jogo.equipas[0].primeiroElemento %><span class="jogosTableBrSeparator"><%= jogo.equipas[1].primeiroElemento %></span></td>
+                                <td><%= jogo.equipas[0].segundoElemento %><span class="jogosTableBrSeparator"><%= jogo.equipas[1].segundoElemento %></span></td>
+                                <td><%= jogo.equipas[0].localidade.nome %><span class="jogosTableBrSeparator"><%= jogo.equipas[1].localidade.nome %></span></td>
+                                <td align="center"><%= jogo.parciais[0].parcial1 %><span class="jogosTableBrSeparator"><%= jogo.parciais[1].parcial1 %></span></td>
+                                <td align="center"><%= jogo.parciais[0].parcial2 %><span class="jogosTableBrSeparator"><%= jogo.parciais[1].parcial2 %></span></td>
+                                <td align="center"><%= jogo.parciais[0].parcial3 %><span class="jogosTableBrSeparator"><%= jogo.parciais[1].parcial3 %></span></td>
+                                <td align="center"><%= jogo.pontos[0] %><span class="jogosTableBrSeparator"><%= jogo.pontos[1] %></span></td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <% } %>
+    </div>
+<% }); %>
+<% } else { %>
+    <p>A equipa ainda não iniciou a competição!</p>
+<% } %>

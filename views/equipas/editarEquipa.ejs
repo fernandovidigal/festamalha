@@ -1,0 +1,64 @@
+<%- include('../includes/header.ejs') %>
+
+<% if(torneio != null){ %>
+    <div class="barraTorneio">
+        <div class="barraTorneio__title">
+            <h1><%= torneio.designacao %></h1>
+            <h3><%= torneio.localidade %>, <%= torneio.ano %></h3>
+        </div>
+    </div>
+
+    <%- include('../includes/breadcrumbs.ejs') %>
+    <div class="container_wrapper">
+        <div class="actionBar__wrapper">
+            <h2 class="actionBar__title">Editar Equipa</h2>
+            <% if(equipa.local && activeConnection){ %>
+                <div class="tooltipBtn__wrapper">
+                    <a href="/equipas/sincronizarEquipa/<%= equipa.uuid %>" class="btn btn-secondary"><i class="fas fa-exchange-alt"></i></a>
+                    <span class="tooltip">Sincronizar Equipa</span>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <div class="tabbedMenu__wrapper">
+        <ul class="tabbedMenu">
+            <li class="tabbedMenu__item tabbedMenu__item-selected">Equipa</li>
+            <li class="tabbedMenu__item">Percurso no Torneio</li>
+        </ul>
+    </div>
+
+    <div class="tabbedContent__wrapper">
+        <form action="/equipas/editarEquipa/<%= equipa.oldEscalaoId %>/<%= equipa.equipaId %>?_method=PUT" method="post">
+        <div id="equipa" class="tabbedContainer tabbedContainer-open">
+            <%- include('includes/equipaInfo.ejs') %>
+        </div>
+        <div id="percurso" class="tabbedContainer">
+            <%- include('includes/equipaPercurso.ejs') %>
+        </div>
+        <div class="inputBtnBar">
+            <% if(equipa.local || activeConnection) { %>
+                <input type="submit" name="actualizar" value="Actualizar" class="btn btn-primary">
+            <% } else { %>
+                <span class="btn btn-disabled">Actualizar</span>
+            <% } %>
+            <a href="/equipas" class="btn-cancel">Cancelar</a>
+        </div>
+        </form>
+    </div>
+
+    <div class="overlay">
+        <div class="overlayContainer__wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" class="overlayContainer__close" viewBox="0 0 36 36"><g transform="translate(-1126 -126)"><circle cx="16" cy="16" r="16" transform="translate(1128 128)" fill="#fff"/><path d="M26,8A18,18,0,1,0,44,26,18,18,0,0,0,26,8Zm8.826,22.725a.872.872,0,0,1,0,1.234l-2.874,2.867a.872.872,0,0,1-1.234,0L26,30.065l-4.725,4.761a.872.872,0,0,1-1.234,0l-2.867-2.874a.872.872,0,0,1,0-1.234L21.935,26l-4.761-4.725a.872.872,0,0,1,0-1.234l2.874-2.874a.872.872,0,0,1,1.234,0L26,21.935l4.725-4.761a.872.872,0,0,1,1.234,0l2.874,2.874a.872.872,0,0,1,0,1.234L30.065,26Z" transform="translate(1118 118)"/></g></svg>
+            <div class="overlayContent"></div>
+        </div>
+    </div>
+
+<% } else { %>
+    <h2>Oops.. Algo correu mal!</h2>
+    <p>Verifique se existem torneios registados ou activados.</p>
+<% } %>
+
+<script src="/js/customSelect.js"></script>
+<script src="/js/equipas.js"></script>
+<%- include('../includes/footer.ejs') %>

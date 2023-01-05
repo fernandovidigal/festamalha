@@ -1,0 +1,181 @@
+<div class="formInput__wrapper">
+    <label for="primeiroElemento" class="inputLabel">Nome do Primeiro Elemento <span class="labelRequiredField">*</span></label>
+    <input type="text" name="primeiroElemento" id="primeiroElemento" size="60" pattern="^[^0-9]+$" autofocus required
+        <% if(typeof equipa !== 'undefined'){ %>
+            value="<%= equipa.primeiroElemento %>"
+        <% } %>
+        <% 
+            if(typeof validationErrors != 'undefined'){
+                const erro = validationErrors.find(el => el.param === 'primeiroElemento');
+                if(erro){
+        %>
+                    class="inputError"
+                <% } %>
+        <% } %>
+    >
+    <% 
+        if(typeof validationErrors != 'undefined'){
+            const erro = validationErrors.find(el => el.param === 'primeiroElemento');
+            if(erro){
+    %>
+                <p class="inputErrorMsg">
+                    <%= erro.msg %>
+                </p>
+            <% } %>
+    <% } %>
+</div>
+<div class="formInput__wrapper">
+    <label for="segundoElemento" class="inputLabel">Nome do Segundo Elemento <span class="labelRequiredField">*</span></label>
+    <input type="text" name="segundoElemento" id="segundoElemento" size="60" pattern="^[^0-9]+$" required
+        <% if(typeof equipa !== 'undefined'){ %>
+            value="<%= equipa.segundoElemento %>"
+        <% } %>
+        <% 
+            if(typeof validationErrors != 'undefined'){
+                const erro = validationErrors.find(el => el.param === 'segundoElemento');
+                if(erro){
+        %>
+                    class="inputError"
+                <% } %>
+        <% } %>
+    >
+    <% 
+        if(typeof validationErrors != 'undefined'){
+            const erro = validationErrors.find(el => el.param === 'segundoElemento');
+            if(erro){
+    %>
+                <p class="inputErrorMsg">
+                    <%= erro.msg %>
+                </p>
+            <% } %>
+    <% } %>
+</div>
+<!-- Localidades -->
+<div class="formInput__wrapper">
+    <label for="localidade" class="inputLabel">Localidade <span class="labelRequiredField">*</span></label>
+    <input type="hidden" name="localidade"
+        <%
+            if(typeof equipa != 'undefined'){ %>
+                value="<%= equipa.localidadeId %>"
+        <% } %>
+    >
+    <div class="customSelect adicionarEquipaLocalidadesSelect">
+        <div class="customSelect__header adicionarEquipaLocalidadesSelect__header
+            <% 
+                if(typeof validationErrors != 'undefined'){
+                    const erro = validationErrors.find(el => el.param === 'localidade');
+                    if(erro){
+            %>
+                        inputError
+                    <% } %>
+            <% } %>">
+            <% 
+                if(typeof equipa != 'undefined'){ 
+                    const localidade = localidades.find(el => el.localidadeId == equipa.localidadeId);
+                    if(localidade){
+            %>
+                        <%= localidade.nome %> 
+                    <% } %>
+            <% } %>
+        </div>
+        <div class="customSelect__list adicionarEquipaLocalidadesSelect__list">
+            <% localidades.forEach(function(localidade){ %>
+                <% if(typeof filtro != 'undefined'){ %>
+                    <a class="customSelect__links<%= (typeof filtro.localidadeId != 'undefined' && localidade.localidadeId == filtro.localidadeId) ? ' customSelect__links-selected': '' %>"><%= localidade.nome %></a>
+                <% } else { %>
+                    <a class="customSelect__links" data-localidade="<%= localidade.localidadeId %>"><%= localidade.nome %></a>
+                <% } %>
+            <% }); %>
+        </div>
+    </div>
+    <% 
+        if(typeof validationErrors != 'undefined'){
+            const erro = validationErrors.find(el => el.param === 'localidade');
+            if(erro){
+    %>
+                <p class="inputErrorMsg">
+                    <%= erro.msg %>
+                </p>
+            <% } %>
+    <% } %>
+</div>
+<div class="formInput__wrapper">
+    <label for="escaloes" class="inputLabel">Escalão <span class="labelRequiredField">*</span></label>
+    <% if(equipa.escaloesEditaveis){ %>
+        <% if(typeof escaloes != 'undefined' && escaloes.length > 0){ %>
+            <% 
+                const escalaoMasculino = escaloes.filter(el => el.sexo == 1);
+                if(escalaoMasculino){
+            %>
+                <p class="inputSectionTitle">Masculinos</p>
+                <div class="radioButtons__wrapper">
+                    <% escaloes.forEach(function(escalao){ %>
+                        <% if(escalao.sexo == 1){ %>
+                            <label class="inputRadioContainer"><%= escalao.designacao %>
+                                <input type="radio" name="escalao" value="<%= escalao.escalaoId %>"
+                                    <% if(typeof equipa != 'undefined' && equipa.escalaoId == escalao.escalaoId){ %>
+                                        checked
+                                    <% } %>
+                                >
+                                <span class="checkmark 
+                                <% 
+                                    if(typeof validationErrors != 'undefined'){
+                                        const erro = validationErrors.find(el => el.param === 'escalao');
+                                        if(erro){
+                                %>
+                                            checkmarkError
+                                        <% } %>
+                                <% } %>
+                                "></span>
+                            </label>
+                        <% } %>
+                    <% }); %>
+                </div>
+            <% } %>
+            <% 
+                const escalaoFeminino = escaloes.filter(el => el.sexo == 0);
+                if(escalaoFeminino){
+            %>
+                <p class="inputSectionTitle inputSectionTitle-last">Femininos</p>
+                <div class="radioButtons__wrapper">
+                    <% escaloes.forEach(function(escalao){ %>
+                        <% if(escalao.sexo == 0){ %>
+                            <label class="inputRadioContainer"><%= escalao.designacao %>
+                                <input type="radio" name="escalao" value="<%= escalao.escalaoId %>"
+                                    <% if(typeof equipa != 'undefined' && equipa.escalaoId == escalao.escalaoId){ %>
+                                        checked
+                                    <% } %>
+                                >
+                                <span class="checkmark
+                                <% 
+                                    if(typeof validationErrors != 'undefined'){
+                                        const erro = validationErrors.find(el => el.param === 'escalao');
+                                        if(erro){
+                                %>
+                                            checkmarkError
+                                        <% } %>
+                                <% } %>
+                                "></span>
+                            </label>
+                        <% } %>
+                    <% }); %>
+                </div>
+            <% } %>
+            <% 
+            if(typeof validationErrors != 'undefined'){
+                const erro = validationErrors.find(el => el.param === 'escalao');
+                if(erro){
+            %>
+                        <p class="inputErrorMsg">
+                            <%= erro.msg %>
+                        </p>
+                    <% } %>
+            <% } %>
+        <% } else { %>
+            <p class="noContent">Não existem escalões registados.</p>
+        <% } %>
+    <% } else { %>
+        <p class="escaloesDefinidos"><%= equipa.escalao.designacao %> (<%= (equipa.escalao.sexo == 1) ? 'Masculino' : 'Feminino' %>)</p>
+        <input type="hidden" name="escalao" value="<%= equipa.escalaoId %>">
+    <% } %>
+</div>

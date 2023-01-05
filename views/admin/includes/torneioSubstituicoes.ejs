@@ -1,0 +1,62 @@
+<% if(locals.escaloes && escaloes.length> 0){ %>
+<div class="table__wrapper substituicoes__wrapper">
+  <div class="substituicao__dropbox__wrapper">
+    <div class="substituicao__dropbox">
+      <p class="substituicao__label">Escalão</p>
+      <div class="customSelect">
+        <div class="customSelect__header">
+            <span class="placeholder">Escalão</span>
+        </div>
+        <div class="customSelect__list">
+            <%
+                const masculinos = escaloes.filter(el => el.sexo == 1);
+                if(masculinos.length > 0){
+            %>
+                <div class="customSelect__groupTitle">Masculinos</div>
+                <% escaloes.forEach(function(escalao){ %>
+                    <% if(escalao.sexo == 1 && escalao.fase > 1){ %>
+                        <a class="customSelect__links" data-escalaoid="<%= escalao.escalaoId %>" data-fase="<%= escalao.fase %>" data-designacao="<%= escalao.designacao %>" data-sexo="Masculinos"><%= escalao.designacao %></a>
+                    <% } %>
+                <% }); %>
+            <% } %>
+            <%
+                const femininos = escaloes.filter(el => el.sexo == 0);
+                if(femininos.length > 0){
+            %>
+                <div class="customSelect__groupTitle">Femininos</div>
+                <% escaloes.forEach(function(escalao){ %>
+                    <% if(escalao.sexo == 0 && escalao.fase > 1){ %>
+                      <a class="customSelect__links" data-escalaoid="<%= escalao.escalaoId %>" data-fase="<%= escalao.fase %>" data-designacao="<%= escalao.designacao %>" data-sexo="Femininos"><%= escalao.designacao %></a>
+                    <% } %>
+                <% }); %>
+            <% } %>
+        </div>
+      </div>
+      <small class="substituicoes-select__info">Apenas escalões na 2ª fase ou seguintes</small>
+    </div>
+    <div class="substituicao__fase"></div>
+  </div>
+
+  <div class="substituicao__content__wrapper">
+    <div class="substituicao__a__substituir">
+      <p class="substituicao__label">Equipa a ser substituída</p>
+      <div class="substituicao__lista__equipas__wrapper lista__equipas__substituir"></div>
+    </div>
+
+    <div class="substituicao__a__colocar">
+      <p class="substituicao__label">Equipa a colocar</p>
+      <div class="substituicao__lista__equipas__wrapper lista__equipas__colocar"></div>
+    </div>
+  </div>
+
+  <div class="substituicao__inputBtnBar">
+    <a class="btn btn-primary substituirBtn">Substituir</a>
+    <a href="/admin/torneios" class="btn-cancel">Cancelar</a>
+  </div>
+
+</div>
+
+
+<% } else { %>
+  Não existem escalões registados
+<% } %>

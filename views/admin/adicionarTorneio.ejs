@@ -1,0 +1,35 @@
+<%- include('../includes/header.ejs') %>
+<div class="dummyTopSpacer"></div>
+<%- include('../includes/breadcrumbs.ejs') %>
+
+<div class="container_wrapper">
+    <div class="actionBar__wrapper">
+        <h2 class="actionBar__title">Adicionar Torneio</h2>
+    </div>
+
+    <div class="tabbedMenu__wrapper">
+        <ul class="tabbedMenu">
+            <li class="tabbedMenu__item tabbedMenu__item-selected">Torneio</li>
+            <li class="tabbedMenu__item">Campos</li>
+        </ul>
+    </div>
+
+    <div class="tabbedContent__wrapper">
+        <form action="/admin/torneios/adicionarTorneio" method="post">
+        <div id="torneio" class="tabbedContainer tabbedContainer-open">
+            <%- include('includes/torneioInfo.ejs') %>
+        </div>
+        <div id="campos" class="tabbedContainer">
+            <%- include('includes/torneioCampos.ejs') %>
+        </div>
+        <div class="inputBtnBar">
+            <input type="submit" name="adicionar_activar" value="Adicionar e Activar" class="btn btn-primary">
+            <input type="submit" name="adicionar" value="Adicionar" class="btn btn-primary">
+            <a href="/admin/torneios" class="btn-cancel">Cancelar</a>
+        </div>
+        </form>
+    </div>
+</div>
+
+<script src="/js/torneios.js"></script>
+<%- include('../includes/footer.ejs') %>

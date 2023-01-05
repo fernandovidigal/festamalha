@@ -1,0 +1,36 @@
+<%- include('../includes/header.ejs') %>
+<div class="dummyTopSpacer"></div>
+<%- include('../includes/breadcrumbs.ejs') %>
+
+<div class="container_wrapper">
+    <div class="actionBar__wrapper">
+        <h2 class="actionBar__title">Adicionar Localidade</h2>
+    </div>
+
+    <div class="form__wrapper">
+        <form action="/admin/localidades/adicionarLocalidade" method="post" class="form">
+            <div class="formInput__wrapper">
+                <label for="localidade" class="inputLabel">Nome da localidade <span class="labelRequiredField">*</span></label>
+                <input type="text" name="localidade" pattern="^[^0-9]+$" size="60" autofocus required
+                    <% if(locals.localidade){ %>
+                        value="<%= localidade.nome %>"
+                    <% } %>
+                    <% if(locals.validationErrors && validationErrors[0].param === 'localidade'){ %>
+                        class="inputError"
+                    <% } %>
+                >
+                <% if(locals.validationErrors && validationErrors[0].param === 'localidade'){ %>
+                    <p class="inputErrorMsg">
+                        <%= validationErrors[0].msg %>
+                    </p>
+                <% } %>
+            </div>
+            <div class="inputBtnBar">
+                <input type="submit" name="adicionar" value="Adicionar" class="btn btn-primary">
+                <a href="/admin/localidades" class="btn-cancel">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<%- include('../includes/footer.ejs') %>

@@ -1,0 +1,45 @@
+<%- include('../includes/header.ejs') %>
+<div class="dummyTopSpacer"></div>
+<%- include('../includes/breadcrumbs.ejs') %>
+
+<div class="container_wrapper">
+    <div class="actionBar__wrapper">
+        <h2 class="actionBar__title">Administração</h2>
+    </div>
+
+    <div class="choice__wrapper lessMargin">
+        <a href="/admin/localidades" class="choice__item">
+            <i class="fas fa-map-marked-alt choice__item-icon"></i>
+            <p class="choice__item-title">Localidades</p>
+        </a>
+    
+        <a href="/admin/escaloes" class="choice__item">
+            <i class="fas fa-layer-group choice__item-icon"></i>
+            <p class="choice__item-title">Escalões</p>
+        </a>
+    
+        <a href="/admin/torneios" class="choice__item">
+            <i class="fas fa-trophy choice__item-icon"></i>
+            <p class="choice__item-title">Torneios</p>
+        </a>
+    
+        <% if(loggedUser.level === 10){ %>
+            <a href="/admin/utilizadores" class="choice__item">
+                <i class="fas fa-users choice__item-icon"></i>
+                <p class="choice__item-title">Utilizadores</p>
+            </a>
+            
+            <a href="/admin/configuracoes" class="choice__item">
+                <i class="fas fa-cogs choice__item-icon"></i>
+                <p class="choice__item-title">Configurações</p>
+            </a>
+        <% } %>
+
+        <!--<a href="/admin/sincronizacao" class="choice__item">
+            <i class="fas fa-exchange-alt choice__item-icon"></i>
+            <p class="choice__item-title">Sincronização</p>
+        </a>-->
+    </div>
+</div>
+
+<%- include('../includes/footer.ejs') %>

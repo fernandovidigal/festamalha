@@ -1,0 +1,61 @@
+<%- include('../includes/header.ejs') %>
+
+<div class="barraTorneio">
+    <div class="barraTorneio__buttons">
+        <a href="/admin/torneios/adicionarTorneio" class="btn btn-primary">Adicionar Torneio</a>
+        <% if(activeConnection) { %>
+            <div class="tooltipBtn__wrapper">
+                <a href="/admin/torneios/sincronizarTorneios" class="btn btn-secondary"><i class="fas fa-exchange-alt"></i></a>
+                <span class="tooltip">Sincronizar Torneios</span>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<%- include('../includes/breadcrumbs.ejs') %>
+
+<div class="container_wrapper">
+    <div class="actionBar__wrapper">
+        <h2 class="actionBar__title">Torneios</h2>
+    </div>
+    <div class="table__wrapper">
+        <table class="mainTable">
+            <thead>
+                <tr>
+                    <th width="1%"></th>
+                    <th class="mainTable-headerElement-left">Torneio</th>
+                    <th class="mainTable-headerElement-left">Localidade</th>
+                    <th>Ano</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            <% if(torneios.length > 0) { %>
+                <% torneios.forEach(function(torneio){ %>
+                    <tr>
+                        <td align="center">
+                            <a href="/admin/torneios/activaTorneio/<%= torneio.torneioId %>" class="tag <%= (torneio.activo == 1) ? 'tag--active' : 'tag--activate' %>">
+                            <%= (torneio.activo == 1) ? 'Activo' : 'Activar' %>
+                            </a>
+                        </td>
+
+                        <td class="torneio_designacao"><%= torneio.designacao %></td>
+                        <td class="torneio_localidade"><%= torneio.localidade %></td>
+                        <td align="center"><%= torneio.ano %></td>
+                        <td class="detalhesBtn__column"><a href="/admin/torneios/editarTorneio/<%= torneio.torneioId %>" class="btn btn-secondary">Detalhes</a></td>
+                        <td class="deleteBtn__column"><a href="" class="btn btn-delete" data-torneio="<%= torneio.torneioId %>"><i class="fa fa-trash-alt"></i></a></td>
+                    </tr>
+                <% }); %>
+            <% } else { %>
+                <tr>
+                    <td colspan="6">Não existem torneios registados</td>
+                </tr>
+            <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="/js/torneios.js"></script>
+<%- include('../includes/footer.ejs') %>

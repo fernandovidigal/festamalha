@@ -1,0 +1,32 @@
+<div class="table__wrapper">
+    <p class="table__title">Torneio</p>
+    <table class="mainTable">
+        <tbody>
+            <tr>
+                <td>
+                    Reinicializar o torneio<br>
+                    <small class="smallTextInfo">Todos os Jogos, Fases, Resultados e Distribuição de Equipas será elimiado</small>
+                </td>
+                <td class="detalhesBtn__column"><a class="btn btn-quaternary ResetTorneio-btn" data-torneio="<%= torneio.torneioId %>">Reinicializar</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="table__wrapper">
+    <p class="table__title">Equipas</p>
+    <table class="mainTable">
+        <tbody>
+            <tr>
+                <td>Eliminar equipas<br><small class="smallTextInfo"><%= numTotalEquipas > 0 ? '('+numTotalEquipas+' equipas)' : 'Sem equipas registadas' %></small></td>
+                <td class="detalhesBtn__column">
+                    <% if(numTotalJogos == 0){ %>
+                        <a class="btn btn-quaternary DeleteEquipasTorneio-btn" data-torneio="<%= torneio.torneioId %>">Eliminar</a>
+                    <% } else { %>
+                        <p class="errMsg" align="right">Deve reinicializar primeiro o torneio</p>
+                    <% } %>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

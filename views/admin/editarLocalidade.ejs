@@ -1,0 +1,39 @@
+<%- include('../includes/header.ejs') %>
+<div class="dummyTopSpacer"></div>
+<%- include('../includes/breadcrumbs.ejs') %>
+
+<div class="container_wrapper">
+    <div class="actionBar__wrapper">
+        <h2 class="actionBar__title">Editar Localidade</h2>
+    </div>
+
+    <div class="form__wrapper">
+        <% if(typeof localidade !== 'undefined'){ %>
+            <form action="/admin/localidades/editarLocalidade/<%= localidade.localidadeId %>?_method=PUT" method="post" class="form">
+                <div class="formInput__wrapper">
+                    <label for="localidade" class="inputLabel">Nome da localidade <span class="labelRequiredField">*</span></label>
+                    <input type="text" name="localidade" pattern="^[^0-9]+$" size="60" value="<%= localidade.nome %>" autofocus required
+                        <% if(typeof validationErrors != 'undefined' && validationErrors[0].param === 'localidade'){ %>
+                            class="inputError"
+                        <% } %>
+                    >
+                    
+                    <% if(typeof validationErrors != 'undefined' && validationErrors[0].param === 'localidade'){ %>
+                        <p class="inputErrorMsg">
+                            <%= validationErrors[0].msg %>
+                        </p>
+                    <% } %>
+                </div>
+                <div class="inputBtnBar">
+                    <input type="submit" name="adicionar" value="Actualizar" class="btn btn-primary">
+                    <a href="/admin/localidades" class="btn-cancel">Cancelar</a>
+                </div>
+            </form>
+        <% } else { %>
+            <h1>Oops...Algo correu mal!</h1>
+            <a href="/admin/localidades">Voltar</a>
+        <% } %>
+    </div>
+</div>
+
+<%- include('../includes/footer.ejs') %>

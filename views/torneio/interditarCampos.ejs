@@ -1,0 +1,48 @@
+<%- include('../includes/header.ejs') %>
+
+<% if(torneio != null){ %>
+    <div class="barraTorneio">
+        <div class="barraTorneio__title">
+            <h1><%= torneio.designacao %></h1>
+            <h3><%= torneio.localidade %>, <%= torneio.ano %></h3>
+        </div>
+    </div>
+
+    <%- include('../includes/breadcrumbs.ejs') %>
+    <div class="container_wrapper">
+        <div class="actionBar__wrapper">
+            <h2 class="actionBar__title">Interditar Campos</h2>
+        </div>
+
+        <div class="interditarCampos__wrapper">
+            <div class="escalaoInfo">
+                <p class="interditarCampos__title"><%= escalao.designacao %></p>
+                <p class="interditarCampos__subtitle"><%= (escalao.sexo == 1) ? 'Masculino' : 'Feminino' %></p>
+            </div>
+            <form action="/torneio/interditarCampos/escalao/<%= escalao.escalaoId %>" method="post">
+                <p class="interditarCampos_listaCampos-title">Campos</p>
+                <div class="interditarCampos_listaCampos_Wrapper">
+                    <% for(let i = 0; i < listaCampos.length; i++){ %>
+                        <div class="interditarCampos_listaCampos-campo">
+                            <input type="checkbox" name="campo[]" id="<%= listaCampos[i].campo %>" value="<%= listaCampos[i].campo %>" <%= (listaCampos[i].interdito) ? 'checked' : '' %> class="escalaoNumCampos campoInterdito">
+                            <label for="<%= listaCampos[i].campo %>"><%= listaCampos[i].campo %></label>
+                        </div>
+                    <% } %>
+                </div>
+                <div class="interditarCampos_legenda">
+                    <span></span>
+                    <small>Campos interditos</small>
+                </div>
+
+                <div class="inputBtnBar">
+                    <input type="submit" value="Interditar" class="btn btn-primary">
+                    <a href="/torneio" class="btn-cancel">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+<% } else { %>
+    <%- include('../includes/noTorneio.ejs') %>
+<% } %>
+
+<%- include('../includes/footer.ejs') %>

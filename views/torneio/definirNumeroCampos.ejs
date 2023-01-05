@@ -1,0 +1,138 @@
+<%- include('../includes/header.ejs') %>
+
+<% if(torneio != null){ %>
+    <div class="barraTorneio">
+        <div class="barraTorneio__title">
+            <h1><%= torneio.designacao %></h1>
+            <h3><%= torneio.localidade %>, <%= torneio.ano %></h3>
+        </div>
+    </div>
+
+    <%- include('../includes/breadcrumbs.ejs') %>
+    <div class="container_wrapper">
+        <div class="actionBar__wrapper">
+            <h2 class="actionBar__title">Definir Número de Campos</h2>
+        </div>
+        
+        <div class="definirCampos__wrapper">
+        <form action="/torneio/definirNumeroCampos" method="post">
+        <% if(typeof escaloes != 'undefined'){ %>
+            <% if(escaloes.length > 0) { %>
+                <% 
+                    const escalaoMasculino = escaloes.find(el => el.sexo == 1); 
+                    if(escalaoMasculino){
+                %>
+                <div class="escalaoCampos__wrapper">
+                    <h4>Masculinos</h4>
+                    <table class="mainTable">
+                        <thead>
+                            <tr>
+                                <th class="mainTable-headerElement-left">Escalão</th>
+                                <th width="20%">Número de Equipas</th>
+                                <th class="mainTable-headerElement-left" width="32%">Número de Campos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% escaloes.forEach(escalao => { 
+                                if(escalao.sexo == 1) { %>
+                                    <% let erro; %>
+                                    <% if(typeof validationErrors !== 'undefined'){
+                                        erro = validationErrors.find(el => el.escalaoId == escalao.escalaoId);
+                                    } %>
+                                <tr>
+                                    <td><%= escalao.designacao %></td>
+                                    <td align="center"><%= escalao.numEquipas %></td>
+                                    <% if(escalao.numEquipas > 5){ %>
+                                        <td class="camposColumn">
+                                            <% for(let i = 0; i < 8; i++){ %>
+                                                <input type="radio" class="escalaoNumCampos<%= (typeof escalao.numCamposMax != 'undefined' && escalao.numCamposMax == Math.pow(2,i) ? ' escalaoNumCamposMaxRecomendado' : (Math.pow(2,i) > escalao.numCamposMax) ? ' escalaoExcessoCampos' : '') %>" value="<%= (i != 0) ? Math.pow(2,i): 0 %>" name="<%= escalao.escalaoId %>" id="<%= (escalao.escalaoId * 10) + i %>" <%= (Math.pow(2,i) > escalao.numCamposMax) ? 'disabled' : '' %>
+                                                <% if(typeof escalao.campos != undefined && escalao.campos > 0){ %>
+                                                    <%= (escalao.campos == Math.pow(2,i)) ? 'checked' : '' %>
+                                                <% } else { %>
+                                                    <%= (i == 0) ? 'checked' : '' %>
+                                                <% } %>
+                                                >
+                                                <label for="<%= (escalao.escalaoId * 10) + i %>"><%= (i != 0) ? Math.pow(2,i): 0 %></label>
+                                            <% } %>
+                                            <% if(typeof erro !== 'undefined'){ %>
+                                                <br>
+                                                <span class="camposErrorMsg camposColumn" align="right"><%= erro.msg %></span>
+                                            <% } %>
+                                        </td>
+                                    <% } else { %>
+                                        <td class="camposColumn"><p class="errMsg" align="right">Devem existir, no mínimo, 6 equipas, 3 por cada campo</p></td>
+                                    <% } %>
+                                </tr>
+                                <% } %>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+                <%  } %>
+        
+                <% 
+                    const escalaoFeminino = escaloes.find(el => el.sexo == 0); 
+                    if(escalaoFeminino){
+                %>
+                <div class="escalaoCampos__wrapper">
+                    <h4>Femininos</h4>
+                    <table class="mainTable">
+                        <thead>
+                            <tr>
+                                <th class="mainTable-headerElement-left">Escalão</th>
+                                <th width="20%">Número de Equipas</th>
+                                <th class="mainTable-headerElement-left" width="32%">Número de Campos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% escaloes.forEach(escalao => { 
+                                if(escalao.sexo == 0) { %>
+                                    <% let erro; %>
+                                    <% if(typeof validationErrors !== 'undefined'){
+                                        erro = validationErrors.find(el => el.escalaoId == escalao.escalaoId);
+                                    } %>
+                                <tr>
+                                    <td><%= escalao.designacao %></td>
+                                    <td align="center"><%= escalao.numEquipas %></td>
+                                    <% if(escalao.numEquipas > 5){ %>
+                                        <td class="camposColumn">
+                                            <% for(let i = 0; i < 8; i++){ %>
+                                                <input type="radio" class="escalaoNumCampos<%= (typeof escalao.numCamposMax != 'undefined' && escalao.numCamposMax == Math.pow(2,i) ? ' escalaoNumCamposMaxRecomendado' : (Math.pow(2,i) > escalao.numCamposMax) ? ' escalaoExcessoCampos' : '') %>" value="<%= (i != 0) ? Math.pow(2,i): 0 %>" name="<%= escalao.escalaoId %>" id="<%= (escalao.escalaoId * 10) + i %>" <%= (Math.pow(2,i) > escalao.numCamposMax) ? 'disabled' : '' %>
+                                                <% if(typeof escalao.campos != undefined && escalao.campos > 0){ %>
+                                                    <%= (escalao.campos == Math.pow(2,i)) ? 'checked' : '' %>
+                                                <% } else { %>
+                                                    <%= (i == 0) ? 'checked' : '' %>
+                                                <% } %>
+                                                >
+                                                <label for="<%= (escalao.escalaoId * 10) + i %>"><%= (i != 0) ? Math.pow(2,i): 0 %></label>
+                                            <% } %>
+                                            <% if(typeof erro !== 'undefined'){ %>
+                                                <br>
+                                                <span class="camposErrorMsg camposColumn" align="right"><%= erro.msg %></span>
+                                            <% } %>
+                                        </td>
+                                    <% } else { %>
+                                        <td class="camposColumn"><p class="errMsg" align="right">Devem existir, no mínimo, 6 equipas, 3 por cada campo</p></td>
+                                    <% } %>
+                                </tr>
+                                <% } %>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+                <%  } %>
+                <input type="submit" class="btn btn-primary" value="Definir e avançar">
+            <% } else { %>
+                <p>Não existem escalões registados!</p>
+            <% }%>
+        <% } else { %>
+            <p>Não foi possível obter os escalões.</p>
+        <% } %>
+        </form>
+        </div>
+    </div>
+<% } else { %>
+    <%- include('../includes/noTorneio.ejs') %>
+<% } %>
+
+<%- include('../includes/footer.ejs') %>

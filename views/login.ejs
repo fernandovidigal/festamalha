@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Festa da Malha</title>
+</head>
+<body>
+    <div class="login__wrapper">
+        <div class="login__container">
+            <div class="loginForm__logo">
+                <img src="/imagens/logo.svg" alt="Logotipo da Festa da Malha">
+            </div>
+            <form action="/login" method="post" class="loginForm">
+                <div class="loginForm__inputs">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" required autofocus>
+                    <label for="password">Password</label>
+                    <div class="loginForm__passwordField">
+                        <input type="password" name="password" required class="passwordField">
+                        <div class="showPassword__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="14" class="loginForm__showPassword--btn" viewBox="0 0 21 14"><path d="M10.5,66.917a4.044,4.044,0,0,0-1.139.182,2.02,2.02,0,0,1,.264.984,2.042,2.042,0,0,1-2.042,2.042,2.02,2.02,0,0,1-.984-.264,4.073,4.073,0,1,0,3.9-2.944Zm10.373,3.551A11.694,11.694,0,0,0,10.5,64,11.7,11.7,0,0,0,.127,70.468a1.179,1.179,0,0,0,0,1.064A11.694,11.694,0,0,0,10.5,78a11.7,11.7,0,0,0,10.373-6.468,1.179,1.179,0,0,0,0-1.064ZM10.5,76.25A9.918,9.918,0,0,1,1.826,71,9.917,9.917,0,0,1,10.5,65.75,9.917,9.917,0,0,1,19.175,71,9.917,9.917,0,0,1,10.5,76.25Z" transform="translate(-0.001 -64)"/></svg>
+                        </div>
+                    </div>
+                    <% if(error.length > 0){ %>
+                        <p class="loginForm__Error"><%= error %></p>
+                    <% } %>
+                </div>
+                <input type="submit" value="Entrar" class="loginForm__btn">
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

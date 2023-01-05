@@ -1,0 +1,62 @@
+<%- include('../includes/header.ejs') %>
+
+<% if(torneio != null){ %>
+    <div class="barraTorneio">
+        <div class="barraTorneio__title">
+            <h1><%= torneio.designacao %></h1>
+            <h3><%= torneio.localidade %>, <%= torneio.ano %></h3>
+        </div>
+        <% if(numTotalJogos == 0){ %>
+            <div class="barraTorneio__buttons">
+                <a href="/torneio/distribuirTodasEquipas" class="btn btn-primary">Distribuir Todos os Escalões</a>
+            </div>
+        <% } %>
+    </div>
+
+    <%- include('../includes/breadcrumbs.ejs') %>
+    <div class="container_wrapper">
+        <div class="actionBar__wrapper">
+            <h2 class="actionBar__title">Competição</h2>
+        </div>
+
+        <div class="tabbedMenu__wrapper">
+            <ul class="tabbedMenu">
+                <% if(escaloesMasculinos.length > 0){ %>
+                    <li class="tabbedMenu__item<%= (selectedTab == 1) ? ' tabbedMenu__item-selected' : '' %>">Masculinos</li>
+                    <% if(escaloesFemininos.length > 0){ %>
+                        <li class="tabbedMenu__item<%= (selectedTab == 2) ? ' tabbedMenu__item-selected' : '' %>">Femininos</li>
+                    <% } %>
+                <% } else { %>
+                    <% if(escaloesFemininos.length > 0){ %>
+                        <li class="tabbedMenu__item tabbedMenu__item-selected">Femininos</li>
+                    <% } %>
+                <% } %>
+            </ul>
+        </div>
+
+        <div class="tabbedContent__wrapper">
+            <div id="masculinos" class="tabbedContainer<%= (selectedTab == 1) ? ' tabbedContainer-open' : '' %>">
+                <div class="competicaoEscalao_wrapper">
+                    <% escaloesMasculinos.forEach(function(escalao){ %>
+                        <%- include('includes/escalao.ejs', {escalao: escalao}) %>
+                    <% }); %>
+                </div>
+            </div>
+            <div id="femininos" class="tabbedContainer<%= (selectedTab == 2) ? ' tabbedContainer-open' : '' %>">
+                <div class="competicaoEscalao_wrapper">
+                    <% escaloesFemininos.forEach(function(escalao){ %>
+                        <%- include('includes/escalao.ejs', {escalao: escalao}) %>
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+<% } else { %>
+    <%- include('../includes/noTorneio.ejs') %>
+<% } %>
+
+<script src="/js/customSelect.js"></script>
+<script src="/js/jogos.js"></script>
+
+<%- include('../includes/footer.ejs') %>

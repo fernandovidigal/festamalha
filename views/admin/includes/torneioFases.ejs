@@ -1,0 +1,77 @@
+<% if(locals.escaloes){ %>
+    <% 
+        const escalaoMasculino = escaloes.filter(el => el.sexo == 1); 
+        if(escalaoMasculino.length > 0){
+    %>
+        <div class="escalaoCampos__wrapper">
+            <h4>Masculinos</h4>
+            <table class="mainTable">
+                <thead>
+                    <tr>
+                        <th class="mainTable-headerElement-left" width="40%">Escalão</th>
+                        <th width="30%">Fase Actual</th>
+                        <th width="30%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% escalaoMasculino.forEach(escalao => { %>
+                        <tr>
+                            <td><%= escalao.designacao %></td>
+                            <td align="center">
+                                <% if(escalao.numEquipas == 0){ %>
+                                    Não têm equipas registadas
+                                <% } else { %>
+                                    <%= escalao.fase == 100 ? 'Final' : escalao.fase != 0 ? escalao.fase : 'Ainda não iniciou a competição' %>
+                                <% } %>
+                            </td>
+                            <td align="right" class="deleteBtn__column">
+                                <% if(escalao.fase != 0){ %>
+                                    <a class="btn btn-secondary btn-faseReset" data-torneio="<%= torneio.torneioId %>" data-escalao="<%= escalao.escalaoId %>" data-fase="<%= escalao.fase %>" data-designacao="<%= escalao.designacao %> (<%= escalao.sexo == 1? 'Masculino': 'Feminino' %>)">Remover Fase</a>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    <%  } %>
+
+    <% 
+        const escalaoFeminino = escaloes.filter(el => el.sexo == 0); 
+        if(escalaoFeminino.length > 0){
+    %>
+        <div class="escalaoCampos__wrapper">
+            <h4>Femininos</h4>
+            <table class="mainTable">
+                <thead>
+                    <tr>
+                        <th class="mainTable-headerElement-left" width="40%">Escalão</th>
+                        <th width="30%">Fase Actual</th>
+                        <th width="30%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% escalaoFeminino.forEach(escalao => { %>
+                        <tr>
+                            <td><%= escalao.designacao %></td>
+                            <td align="center">
+                                <% if(escalao.numEquipas == 0){ %>
+                                    Não têm equipas registadas
+                                <% } else { %>
+                                    <%= escalao.fase == 100 ? 'Final' : escalao.fase != 0 ? escalao.fase : 'Ainda não iniciou a competição' %>
+                                <% } %>
+                            </td>
+                            <td align="right" class="deleteBtn__column">
+                                <% if(escalao.fase != 0){ %>
+                                    <a class="btn btn-secondary btn-faseReset" data-torneio="<%= torneio.torneioId %>" data-escalao="<%= escalao.escalaoId %>" data-fase="<%= escalao.fase %>" data-designacao="<%= escalao.designacao %> (<%= escalao.sexo == 1? 'Masculino': 'Feminino' %>)">Remover Fase</a>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    <%  } %>
+<% } else { %>
+    <p>Não foi possível obter informação sobre as Fases</p>
+<% } %>

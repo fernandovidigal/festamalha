@@ -1,0 +1,61 @@
+<%- include('../includes/header.ejs') %>
+<div class="barraTorneio">
+    <div class="barraTorneio__buttons">
+        <a href="/admin/escaloes/adicionarEscalao" class="btn btn-primary">Adicionar Escalão</a>
+        <% if(activeConnection) { %>
+            <div class="tooltipBtn__wrapper">
+                <a href="/admin/escaloes/sincronizarEscaloes" class="btn btn-secondary"><i class="fas fa-exchange-alt"></i></a>
+                <span class="tooltip">Sincronizar Localidades</span>
+            </div>
+        <% } %>
+    </div>
+</div>
+<%- include('../includes/breadcrumbs.ejs') %>
+
+<div class="container_wrapper">
+    <div class="actionBar__wrapper">
+        <h2 class="actionBar__title">Escalões</h2>
+        <div class="escalaoSelect">
+            <a href="/admin/escaloes" class="escalaoSelect__option<%= (filtro < 0) ? ' escalaoSelect__option-selected' : '' %>">Todos</a>
+            <a href="/admin/escaloes/filtro/M" class="escalaoSelect__option<%= (filtro == 1) ? ' escalaoSelect__option-selected' : '' %>">Masculino</a>
+            <a href="/admin/escaloes/filtro/F" class="escalaoSelect__option<%= (filtro == 0) ? ' escalaoSelect__option-selected' : '' %>">Feminino</a>
+        </div>
+    </div>
+
+    <div class="table__wrapper">
+        <table class="mainTable">
+            <thead>
+                <tr>
+                    <th class="mainTable-headerElement-left">Escalão</th>
+                    <th class="mainTable-headerElement-left">Sexo</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if(escaloes.length > 0) { %>
+                    <% escaloes.forEach(function(escalao){ %>
+                        <tr>
+                            <td class="escalao"><%= escalao.designacao %></td>
+                            <td class="sexo"><%= escalao.sexo == 0 ? 'Feminino' : 'Masculino' %></td>
+                            <td class="detalhesBtn__column"><a href="/admin/escaloes/editarEscalao/<%= escalao.escalaoId %>" class="btn btn-secondary">Editar</a></td>
+                            <td class="deleteBtn__column">
+                                <% if(escalao.eliminavel){ %>
+                                    <a href="" class="btn btn-delete" data-escalao="<%= escalao.escalaoId %>"><i class="fa fa-trash-alt"></i></a>
+                                <% } else { %>
+                                    <p class="btn btn-disabled"><i class="fas fa-trash-alt"></i></p>
+                                <% } %></td>
+                        </tr>
+                    <% }); %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="4">Não existem escalões registados</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="/js/escaloes.js"></script>
+<%- include('../includes/footer.ejs') %>

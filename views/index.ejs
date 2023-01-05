@@ -1,0 +1,34 @@
+<%- include('includes/header.ejs') %>
+
+<div class="choice__wrapper">
+    <a href="/torneio" class="choice__item">
+        <i class="fas fa-trophy choice__item-icon"></i>
+        <p class="choice__item-title">Competição</p>
+    </a>
+
+    <a href="/equipas" class="choice__item">
+        <i class="fas fa-user-friends choice__item-icon"></i>
+        <p class="choice__item-title">Equipas</p>
+    </a>
+
+    <a href="/listagens" class="choice__item">
+        <i class="fas fa-list choice__item-icon"></i>
+        <p class="choice__item-title">Listagens</p>
+    </a>
+
+    <% if(loggedUser.level === 10 || loggedUser.level === 5){ %>
+    <a href="/admin" class="choice__item">
+        <i class="fas fa-user-cog choice__item-icon"></i>
+        <p class="choice__item-title"><%= (loggedUser.level === 10) ? 'Administração' : 'Gestão' %></p>
+    </a>
+    <% } %>
+    
+</div>
+
+<% if(sync){ %>
+    <span class="syncData"></span>
+<% } %>
+
+<script src="/js/index.js"></script>
+
+<%- include('includes/footer.ejs') %>

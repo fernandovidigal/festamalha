@@ -1,0 +1,58 @@
+<%- include('../includes/header.ejs') %>
+
+<div class="barraTorneio">
+    <div class="barraTorneio__buttons">
+        <a href="/admin/localidades/adicionarLocalidade" class="btn btn-primary">Adicionar Localidade</a>
+        <% if(activeConnection) { %>
+            <div class="tooltipBtn__wrapper">
+                <a href="/admin/localidades/sincronizarLocalidades" class="btn btn-secondary"><i class="fas fa-exchange-alt"></i></a>
+                <span class="tooltip">Sincronizar Localidades</span>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<%- include('../includes/breadcrumbs.ejs') %>
+
+<div class="container_wrapper">
+    <div class="actionBar__wrapper">
+        <h2 class="actionBar__title">Localidades</h2>
+    </div>
+
+    <div class="table__wrapper">
+        <table class="mainTable">
+            <thead>
+                <tr>
+                    <th class="mainTable-headerElement-left">Localidade</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if(localidades.length > 0) { %>
+                    <% localidades.forEach(function(localidade){ %>
+                        <tr>
+                            <td class="localidade"><%= localidade.nome %></td>
+                            <td class="detalhesBtn__column"><a href="/admin/localidades/editarLocalidade/<%= localidade.localidadeId %>" class="btn btn-secondary">Editar</a></td>
+                            <td class="deleteBtn__column">
+                                <% if(localidade.eliminavel){ %>
+                                    <a href="" class="btn btn-delete" data-localidade="<%= localidade.localidadeId %>"><i class="fas fa-trash-alt"></i></a>
+                                <% } else { %>
+                                    <p class="btn btn-disabled"><i class="fas fa-trash-alt"></i></p>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% }); %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="3">Não existem localidades registadas</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="/js/localidades.js"></script>
+
+<%- include('../includes/footer.ejs') %>

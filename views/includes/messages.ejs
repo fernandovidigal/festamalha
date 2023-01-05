@@ -1,0 +1,15 @@
+<% if(success.length > 0){ %>
+    <span class="dialogMessage" data-type="success" data-text="<%= success %>" data-selfclose="true"></span>
+<% } %>
+
+<% if(error.length > 0){ %>
+    <span class="dialogMessage" data-type="error" data-text="<%= error %>" data-selfclose="false"></span>
+<% } %>
+
+<% if(info.length > 0){ %>
+    <span class="dialogMessage" data-type="info" data-text="<%= info %>" data-selfclose="false"></span>
+<% } %>
+
+<% if(warning.length > 0){ %>
+    <span class="dialogMessage" data-type="warning" data-text="<%= warning %>" data-selfclose="false"></span>
+<% } %>

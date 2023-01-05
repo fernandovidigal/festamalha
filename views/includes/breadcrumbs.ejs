@@ -1,0 +1,21 @@
+<% if(typeof breadcrumbs != 'undefined'){ %>
+<div class="breadcrumbs__wrapper">
+    <ul class="breadcrumbs">
+        <% breadcrumbs.forEach((breadcrumb, index) => { %>
+            <% if(index < breadcrumbs.length - 1) { %>
+                <li class="breadcrumbs__item">
+                    <% if(index > 0){ %>
+                        <svg class="breadcrumbs__separator" height="34" viewBox="0 0 11 34" width="11" xmlns="http://www.w3.org/2000/svg"><path d="m10.161598 17.4438668-8.71961706-16.67765863-.88618727.46332725 8.50107249 16.25965728-8.05686616 15.4100419.88618726.4633272 8.24190384-15.7639558.089849-.046976-.0326443-.0624373.0135233-.0258655z" fill="#ddd"/></svg>
+                    <% } %>
+                    <a href="<%= breadcrumb.url %>" class="breadcrumbs__link"><%- (index != 0) ? breadcrumb.name : '<i class="fas fa-home"></i>' %></a>
+                </li>
+            <% } else { %>
+                <li class="breadcrumbs__item breadcrumbs__item__selected">
+                    <svg class="breadcrumbs__separator" height="34" viewBox="0 0 11 34" width="11" xmlns="http://www.w3.org/2000/svg"><path d="m10.161598 17.4438668-8.71961706-16.67765863-.88618727.46332725 8.50107249 16.25965728-8.05686616 15.4100419.88618726.4633272 8.24190384-15.7639558.089849-.046976-.0326443-.0624373.0135233-.0258655z" fill="#ddd"/></svg>
+                    <%= breadcrumb.name %>
+                </li>
+            <% } %>
+        <% }); %>
+    </ul>
+</div>
+<% } %>

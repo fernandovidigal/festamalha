@@ -1,0 +1,117 @@
+<div class="escalao__item" data-escalao="<%= escalao.escalaoId %>" data-fase="<%= escalao.fase %>" data-completo="<%= escalao.todosCamposCompletos %>" data-vencedor="<%= escalao.existeVencedor %>">
+    <p class="escalao__item-title"><%= escalao.designacao %></p>
+
+    <% if(escalao.existeVencedor == true){ %>
+    <div class="escalao__item-equipaVencedora">
+        <p class="escalao__item-equipaVencedora-title">Equipa Vencedora</p>
+        <p class="escalao__item-equipaVencedora-elemento"><%= escalao.equipaVencedora.primeiroElemento %></p>
+        <p class="escalao__item-equipaVencedora-elemento"><%= escalao.equipaVencedora.segundoElemento %></p>
+        <p class="escalao__item-equipaVencedora-localidade"><%= escalao.equipaVencedora.localidade %></p>
+    </div>
+    <% } %>
+
+    <% if(escalao.fase == 0){ %>
+    <div class="escalao__item-escalaoStats">
+        <div class="escalao__item-escalaoStats-numCampos">
+            <p class="escalao__item-escalaoStats-num"><%= escalao.numTotalCampos %></p>
+            <p class="escalao__item-escalaoStats-title">Campos</p>
+        </div>
+        <div class="escalao__item-escalaoStats-numEquipas">
+            <p class="escalao__item-escalaoStats-num"><%= escalao.numEquipas %></p>
+            <p class="escalao__item-escalaoStats-title">Equipas</p>
+        </div>
+    </div>
+    <% } else { %>
+    <!-- SELECT BOXES -->
+    <% if(!escalao.existeVencedor){ %>
+    <div class="escalao__item-checkboxes">
+        <p class="escalao__item-checkboxes-title">Fase</p>
+        <div class="customSelect escalao__item-select customSelect__fases">
+            <div class="customSelect__header customSelect__fasesHeader">
+                <%= (escalao.fase != 100) ? escalao.fase + 'ª Fase' : 'Fase Final' %>
+            </div>
+            <div class="customSelect__list">
+                <% escalao.listaFases.forEach(function(fase){ %>
+                    <a class="customSelect__links customSelect__links-fases<%= fase.fase == escalao.fase ? ' customSelect__links-selected': '' %>" data-fase="<%= fase.fase %>"><%= (fase.fase != 100) ? fase.fase + 'ª Fase' : ' Fase Final' %></a>
+                <% }); %>
+            </div>
+            <input type="hidden" name="fases" class="fasesInput" value="<%= escalao.fase %>">
+        </div>
+        <p class="escalao__item-checkboxes-title">Campos</p>
+        <div class="customSelect escalao__item-select customSelect_campos">
+            <div class="customSelect__header customSelect__camposHeader">
+                Todos os Campos
+            </div>
+            <div class="customSelect__list customSelect__campos__list">
+                <a class="customSelect__campos-link customSelect__campos-all-link<%= (typeof escalao.campo == 'undefined') ? ' customSelect__campos-link-selected' : '' %>">Todos os Campos</a>
+                <table class="customSelect__campos__table">
+                    <tbody>
+                        <% while(escalao.campos.length > 0) {
+                            const _listaCampos = escalao.campos.splice(0,5);
+                        %>
+                            <tr>
+                                <% _listaCampos.forEach(campo => { %>
+                                    <td>
+                                        <a class="customSelect__campos-link customSelect__links-campos<%= campo.completo ? ' customSelect__campos-link-completed' : '' %>" data-campo="<%= campo.campo %>">
+                                            <%= (escalao.fase != 100) ? campo.campo : campo.designacao %>
+                                        </a>
+                                    </td>
+                                <% }); %>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+            <input type="hidden" name="campos" class="camposInput" value="0">
+        </div>
+    </div>
+    <% } %>
+    <!-- /SELECT BOXES -->
+    <% } %>
+
+    <div class="escalao__item-actionBtnBar">
+        <div class="escalao__item-actionBtnBar-mainAction">
+            <% if(escalao.fase == 0){ %>
+                <% if(escalao.numTotalCampos * 3 > escalao.numEquipas){ %>
+                    <p class="errMsg escalao__item-errMsg">Não existem equipas suficientes</p>
+                <% } else if(escalao.numTotalCampos == 0) { %>
+                    <p class="errMsg escalao__item-errMsg">O número de campos não foi definido</p>
+                <% } else { %>
+                    <a href="/torneio/distribuirEquipasPorEscalao/escalao/<%= escalao.escalaoId %>" class="btn-competicao">Iniciar Competição</a>
+                <% } %>
+            <% } else { %>
+                <% if(escalao.existeVencedor){ %>
+                    <a href="/torneio/resultados/escalao/<%= escalao.escalaoId %>" class="btn-competicao btn-verRegistaParciais">Ver Parciais</a>
+                <% } else { %>
+                    <% if(escalao.todosCamposCompletos){ %>
+                    <div class="processaProximaFase__wrapper">
+                        <a href="/torneio/processaProximaFase/escalao/<%= escalao.escalaoId %>" class="btn-competicao btn-proximaFase">Processar Próxima Fase</a>
+                        <% if(escalao.todosCamposCompletos && !escalao.existeVencedor){ %>
+                            <div class="competicaoOptions">
+                                <div class="competicaoOptions-trigger">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="4.129" height="16" viewBox="0 0 4.129 16"><path d="M26.065,12.935A2.065,2.065,0,1,1,24,15,2.063,2.063,0,0,1,26.065,12.935ZM24,9.065A2.065,2.065,0,1,0,26.065,7,2.063,2.063,0,0,0,24,9.065Zm0,11.871a2.065,2.065,0,1,0,2.065-2.065A2.063,2.063,0,0,0,24,20.935Z" transform="translate(-24 -7)" fill="#fff"/></svg>
+                                </div>
+                                <div class="competicaoOptions-menu">
+                                    <a href="/torneio/resultados/escalao/<%= escalao.escalaoId %>" class="competicaoOptions-menu-item editarParciais__btn"><i class="fas fa-edit"></i>Editar Parciais</a>
+                                    <% if(escalao.fase > 1){ %>
+                                        <a href="/torneio/interditarCampos/escalao/<%= escalao.escalaoId %>" class="competicaoOptions-menu-item interditarCampos__btn"><i class="fas fa-ban"></i>Interditar Campos</a>
+                                    <% } %>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+                    <% } else { %>
+                        <a href="/torneio/resultados/escalao/<%= escalao.escalaoId %>" class="btn-competicao btn-verRegistaParciais">Registar Parciais</a>
+                    <% } %>
+                <% } %>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<% //if(escalao.todosCamposCompletos && !escalao.existeVencedor && escalao.fase >= 3){ %>
+    <!--<a href="/torneio/interditarCampos/escalao/<%= escalao.escalaoId %>" class="interditarCampos__btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 18 18"><path fill="#596278" d="M17,8a9,9,0,1,0,9,9A9,9,0,0,0,17,8Zm4.722,4.278a6.678,6.678,0,0,1,.75,8.551l-9.3-9.3A6.678,6.678,0,0,1,21.722,12.278Zm-9.443,9.443a6.678,6.678,0,0,1-.75-8.551l9.3,9.3A6.678,6.678,0,0,1,12.278,21.722Z" transform="translate(-8 -8)"/></svg>
+        <span class="tooltip">Interditar Campos</span>
+    </a>-->
+<% //} %>

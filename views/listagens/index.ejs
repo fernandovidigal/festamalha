@@ -1,0 +1,112 @@
+<%- include('../includes/header.ejs') %>
+
+<% if(torneio != null){ %>
+    <div class="barraTorneio">
+        <div class="barraTorneio__title">
+            <h1><%= torneio.designacao %></h1>
+            <h3><%= torneio.localidade %>, <%= torneio.ano %></h3>
+        </div>
+    </div>
+
+    <%- include('../includes/breadcrumbs.ejs') %>
+    <div class="container_wrapper">
+        <div class="actionBar__wrapper">
+            <h2 class="actionBar__title">Listagens</h2>
+        </div>
+
+        <div class="listagens__wrapper">
+            <div class="listagem__item">
+                <p class="listagem__item-title">Lista de Equipas por Localidade</p>
+                <div class="listagem__item-content">
+                    <div class="listagems__item-inputs">
+                        <%- include('componentes/localidades.ejs', {localidades: localidades, errMsg: 'Não existem localidades com equipas registadas!'}) %>
+                        <label class="soFolhaRostoContainer soNumEquipasEscalao" for="soNumEquipasEscalao">Só número de equipas por escalão
+                            <input type="checkbox" name="soNumEquipasEscalao" id="soNumEquipasEscalao" class="soNumEquipasEscalaoInput">
+                            <span class="soFolhaRostoCheckmark"></span>
+                        </label>
+                    </div>
+                    <% if(typeof localidades != 'undefined' && localidades.length > 0){ %>
+                        <div class="listagem__item-printBtn">
+                            <a class="btn btn-secondary listaEquipasPorConcelho_btn">Imprimir</a>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+
+            <div class="listagem__item">
+                <p class="listagem__item-title">Número de Equipas por Localidade</p>
+                <div class="listagem__item-content">
+                    <div class="listagems__item-inputs">
+                        <%- include('componentes/escaloes.ejs', {escaloes: escaloes, errMsg: 'Não existem equipas registadas!'}) %>
+                    </div>
+                    <% if(typeof escaloes != 'undefined' && escaloes.length > 0){ %>
+                        <div class="listagem__item-printBtn">
+                            <a class="btn btn-secondary numEquipasPorConcelho_btn">Imprimir</a>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+    
+            <div class="listagem__item">
+                <p class="listagem__item-title">Equipas Agrupadas por Campos</p>
+                <div class="listagem__item-content">
+                    <div class="listagems__item-inputs">
+                        <%- include('componentes/escaloes.ejs', {escaloes: escaloesComJogos, errMsg: 'Não existem jogos registados!'}) %>
+                        <%- include('componentes/fase.ejs') %>
+                        <%- include('componentes/campos.ejs') %>
+                    </div>
+                    <% if(typeof escaloesComJogos != 'undefined' && escaloesComJogos.length > 0){ %>
+                        <div class="listagem__item-printBtn">
+                            <a class="btn btn-secondary equipasAgrupadasPorCampos_btn">Imprimir</a>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+    
+            <div class="listagem__item">
+                <p class="listagem__item-title">Fichas de Jogo</p>
+                <div class="listagem__item-content">
+                    <div class="listagems__item-inputs">
+                        <%- include('componentes/escaloes.ejs', {escaloes: escaloesComJogos, errMsg: 'Não existem jogos registados!'}) %>
+                        <%- include('componentes/fase.ejs') %>
+                        <%- include('componentes/campos.ejs') %>
+                        <label class="soFolhaRostoContainer" for="soFolhaRosto">Só Folha de Rosto
+                            <input type="checkbox" name="soFolhaRosto" id="soFolhaRosto" class="soFolhaRostoInput">
+                            <span class="soFolhaRostoCheckmark"></span>
+                        </label>
+                    </div>
+                    <% if(typeof escaloesComJogos != 'undefined' && escaloesComJogos.length > 0){ %>
+                        <div class="listagem__item-printBtn">
+                            <a class="btn btn-secondary fichasJogo_btn">Imprimir</a>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+    
+            <div class="listagem__item">
+                <p class="listagem__item-title">Resultados</p>
+                <div class="listagem__item-content">
+                    <div class="listagems__item-inputs">
+                        <%- include('componentes/escaloes.ejs', {escaloes: escaloesComJogos, errMsg: 'Não existem jogos registados!'}) %>
+                        <%- include('componentes/fase.ejs') %>
+                        <%- include('componentes/campos.ejs') %>
+                    </div>
+                    <% if(typeof escaloesComJogos != 'undefined' && escaloesComJogos.length > 0){ %>
+                        <div class="listagem__item-printBtn">
+                            <a class="btn btn-secondary resultados_btn">Imprimir</a>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-spacer"></div>
+<% } else { %>
+    <%- include('../includes/noTorneio.ejs') %>
+<% } %>
+
+<script src="/js/customSelect.js"></script>
+<script src="/js/print.js"></script>
+
+<%- include('../includes/footer.ejs') %>

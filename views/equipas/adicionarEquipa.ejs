@@ -1,0 +1,223 @@
+<%- include('../includes/header.ejs') %>
+
+<div class="barraTorneio">
+    <div class="barraTorneio__title">
+        <h1><%= torneio.designacao %></h1>
+        <h3><%= torneio.localidade %>, <%= torneio.ano %></h3>
+    </div>
+</div>
+
+<%- include('../includes/breadcrumbs.ejs') %>
+<div class="container_wrapper">
+    <div class="actionBar__wrapper">
+        <h2 class="actionBar__title">Adicionar Equipa</h2>
+    </div>
+
+    <div class="form__wrapper">
+        <% if(locals.errors){ %>
+            <p class="errMsg mrgBtm20"><%= errors[0].msg %></p>
+        <% } %>
+        <form action="/equipas/adicionarEquipa" method="post">
+            <div class="formInput__wrapper">
+                <label for="primeiroElemento" class="inputLabel">Nome do Primeiro Elemento <span class="labelRequiredField">*</span></label>
+                <input type="text" name="primeiroElemento" id="primeiroElemento" size="60" pattern="^[^0-9]+$" autofocus required
+                    <% if(locals.equipa){ %>
+                        value="<%= equipa.primeiroElemento %>"
+                    <% } %>
+                    <% 
+                        if(locals.validationErrors){
+                            const erro = validationErrors.find(el => el.param === 'primeiroElemento');
+                            if(erro){
+                    %>
+                                class="inputError"
+                            <% } %>
+                    <% } else if(locals.errors){ %>
+                        class="inputError"
+                    <% } %>
+                >
+                <% 
+                    if(locals.validationErrors){
+                        const erro = validationErrors.find(el => el.param === 'primeiroElemento');
+                        if(erro){
+                %>
+                            <p class="inputErrorMsg">
+                                <%= erro.msg %>
+                            </p>
+                        <% } %>
+                <% } %>
+            </div>
+            <div class="formInput__wrapper">
+                <label for="segundoElemento" class="inputLabel">Nome do Segundo Elemento <span class="labelRequiredField">*</span></label>
+                <input type="text" name="segundoElemento" id="segundoElemento" size="60" pattern="^[^0-9]+$" required
+                    <% if(locals.equipa){ %>
+                        value="<%= equipa.segundoElemento %>"
+                    <% } %>
+                    <% 
+                        if(locals.validationErrors){
+                            const erro = validationErrors.find(el => el.param === 'segundoElemento');
+                            if(erro){
+                    %>
+                                class="inputError"
+                            <% } %>
+                    <% } else if(locals.errors){ %>
+                        class="inputError"
+                    <% } %>
+                >
+                <% 
+                    if(locals.validationErrors){
+                        const erro = validationErrors.find(el => el.param === 'segundoElemento');
+                        if(erro){
+                %>
+                            <p class="inputErrorMsg">
+                                <%= erro.msg %>
+                            </p>
+                        <% } %>
+                <% } %>
+            </div>
+            <!-- Localidades -->
+            <div class="formInput__wrapper">
+                <label for="localidade" class="inputLabel">Localidade <span class="labelRequiredField">*</span></label>
+                <input type="hidden" name="localidade"
+                    <%
+                        if(locals.equipa){ %>
+                            value="<%= equipa.localidadeId %>"
+                    <% } %>
+                >
+                <div class="customSelect adicionarEquipaLocalidadesSelect">
+                    <div class="customSelect__header adicionarEquipaLocalidadesSelect__header
+                        <% 
+                            if(locals.validationErrors){
+                                const erro = validationErrors.find(el => el.param === 'localidade');
+                                if(erro){
+                        %>
+                                    inputError
+                                <% } %>
+                        
+                        <% } else if(locals.errors){ %>
+                            inputError
+                        <% } %>">
+                        <% 
+                            if(locals.equipa){ 
+                                const localidade = localidades.find(el => el.localidadeId == equipa.localidadeId);
+                                if(localidade){
+                        %>
+                                    <%= localidade.nome %> 
+                                <% } %>
+                        <% } %>
+                    </div>
+                    <div class="customSelect__list adicionarEquipaLocalidadesSelect__list">
+                        <% localidades.forEach(function(localidade){ %>
+                            <% if(typeof filtro != 'undefined'){ %>
+                                <a class="customSelect__links<%= (typeof filtro.localidadeId != 'undefined' && localidade.localidadeId == filtro.localidadeId) ? ' customSelect__links-selected': '' %>"><%= localidade.nome %></a>
+                            <% } else { %>
+                                <a class="customSelect__links" data-localidade="<%= localidade.localidadeId %>"><%= localidade.nome %></a>
+                            <% } %>
+                        <% }); %>
+                    </div>
+                </div>
+                <% 
+                    if(locals.validationErrors){
+                        const erro = validationErrors.find(el => el.param === 'localidade');
+                        if(erro){
+                %>
+                            <p class="inputErrorMsg">
+                                <%= erro.msg %>
+                            </p>
+                        <% } %>
+                <% } %>
+            </div>
+            <div class="formInput__wrapper">
+                <label for="escaloes" class="inputLabel">Escalão <span class="labelRequiredField">*</span></label>
+                <% if(locals.escaloes && escaloes.length > 0){ %>
+                    <% 
+                        const escalaoMasculino = escaloes.filter(el => el.sexo == 1);
+                        if(escalaoMasculino.length > 0){
+                    %>
+                        <p class="inputSectionTitle">Masculinos</p>
+                        <div class="radioButtons__wrapper">
+                            <% escalaoMasculino.forEach(function(escalao){ %>
+                                <label class="inputRadioContainer"><%= escalao.designacao %>
+                                    <input type="radio" name="escalao" value="<%= escalao.escalaoId %>"
+                                        <% if(locals.equipa && equipa.escalaoId == escalao.escalaoId){ %>
+                                            checked
+                                        <% } %>
+                                    >
+                                    <span class="checkmark 
+                                    <% 
+                                        if(locals.validationErrors){
+                                            const erro = validationErrors.find(el => el.param === 'escalao');
+                                            if(erro){
+                                    %>
+                                                checkmarkError
+                                            <% } %>
+                                    <% } else if(locals.errors && locals.equipa && equipa.escalaoId == escalao.escalaoId){ %>
+                                        checkmarkError
+                                    <% } %>
+                                    "></span>
+                                </label>
+                            <% }); %>
+                        </div>
+                    <% } %>
+                    <% 
+                        const escalaoFeminino = escaloes.filter(el => el.sexo == 0);
+                        if(escalaoFeminino.length > 0){
+                    %>
+                        <p class="inputSectionTitle inputSectionTitle-last">Femininos</p>
+                        <div class="radioButtons__wrapper">
+                            <% escalaoFeminino.forEach(function(escalao){ %>
+                                <label class="inputRadioContainer"><%= escalao.designacao %>
+                                    <input type="radio" name="escalao" value="<%= escalao.escalaoId %>"
+                                        <% if(locals.equipa && equipa.escalaoId == escalao.escalaoId){ %>
+                                            checked
+                                        <% } %>
+                                    >
+                                    <span class="checkmark
+                                    <% 
+                                        if(locals.validationErrors){
+                                            const erro = validationErrors.find(el => el.param === 'escalao');
+                                            if(erro){
+                                    %>
+                                                checkmarkError
+                                            <% } %>
+                                    <% } else if(locals.errors && locals.equipa && equipa.escalaoId == escalao.escalaoId){ %>
+                                        checkmarkError
+                                    <% } %>
+                                    "></span>
+                                </label>
+                            <% }); %>
+                        </div>
+                    <% } %>
+                    <% 
+                    if(locals.validationErrors){
+                        const erro = validationErrors.find(el => el.param === 'escalao');
+                        if(erro){
+                    %>
+                            <p class="inputErrorMsg">
+                                <%= erro.msg %>
+                            </p>
+                        <% } %>
+                    <% } %>
+                <% } else { %>
+                    <p class="noContent">Não existem escalões registados.</p>
+                <% } %>
+            </div>
+
+            <!--<div class="formInput__wrapper">
+                <label for="syncWeb" class="checkbox__wrapper <%= !activeConnection ? 'checkbox__wrapper-disabled' : '' %>">
+                    <input type="checkbox" name="syncWeb" id="syncWeb" <%= !activeConnection ? 'disabled' : 'checked' %>> Sincronizar com a plataforma Web
+                    <span class="checkbox__checkmark"></span>
+                </label>
+            </div>-->
+
+            <div class="inputBtnBar">
+                <input type="submit" name="adicionar" value="Adicionar" class="btn btn-primary">
+                <a href="/equipas" class="btn-cancel">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/js/customSelect.js"></script>
+<script src="/js/equipas.js"></script>
+
+<%- include('../includes/footer.ejs') %>

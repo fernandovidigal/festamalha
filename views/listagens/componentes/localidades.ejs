@@ -1,0 +1,17 @@
+<% if(typeof localidades != 'undefined'){ %>
+    <% if(localidades.length > 0){ %>
+        <div class="customSelect listagemEscalaoSelect">
+            <input type="hidden" name="escalao" class="localidadeInput" value="0" />
+            <div class="customSelect__header">
+                <span class="placeholder">Localidades</span>
+            </div>
+            <div class="customSelect__list">
+                <% localidades.forEach(function(localidade){ %>
+                    <p class="customSelect__links localidade__link" data-localidade="<%- localidade.idLocalidade %>"><%= localidade['localidade.nome'] %></p>
+                <% }); %>
+            </div>
+        </div>
+    <% } else { %>
+        <p class="errMsg"><%= errMsg %></p>
+    <% } %>
+<% } %>

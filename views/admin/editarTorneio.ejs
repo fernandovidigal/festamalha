@@ -1,0 +1,51 @@
+<%- include('../includes/header.ejs') %>
+<div class="dummyTopSpacer"></div>
+<%- include('../includes/breadcrumbs.ejs') %>
+
+<div class="container_wrapper">
+    <div class="actionBar__wrapper">
+        <h2 class="actionBar__title">Editar Torneio</h2>
+    </div>
+
+    <div class="tabbedMenu__wrapper">
+        <ul class="tabbedMenu">
+            <li class="tabbedMenu__item<%= (locals.selectedTab && selectedTab == 1) ? ' tabbedMenu__item-selected' : '' %>">Torneio</li>
+            <li class="tabbedMenu__item<%= (locals.selectedTab && selectedTab == 2) ? ' tabbedMenu__item-selected' : '' %>">Campos</li>
+            <li class="tabbedMenu__item<%= (locals.selectedTab && selectedTab == 5) ? ' tabbedMenu__item-selected' : '' %>">Substituições</li>
+            <% if(loggedUser.level === 10){ %>
+                <li class="tabbedMenu__item<%= (locals.selectedTab && selectedTab == 3) ? ' tabbedMenu__item-selected' : '' %>">Remover Fases</li>
+                <li class="tabbedMenu__item<%= (locals.selectedTab && selectedTab == 4) ? ' tabbedMenu__item-selected' : '' %>">Definições</li>
+            <% } %>
+        </ul>
+    </div>
+
+    <div class="tabbedContent__wrapper">
+        <form action="/admin/torneios/editarTorneio/<%= torneio.torneioId %>?_method=PUT" method="post">
+        <div id="torneio" class="tabbedContainer<%= (locals.selectedTab && selectedTab == 1) ? ' tabbedContainer-open' : '' %>">
+            <%- include('includes/torneioInfo.ejs') %>
+        </div>
+        <div id="campos" class="tabbedContainer<%= (locals.selectedTab && selectedTab == 2) ? ' tabbedContainer-open' : '' %>">
+            <%- include('includes/torneioCampos.ejs') %>
+        </div>
+        <div id="substituicoes" class="tabbedContainer<%= (locals.selectedTab && selectedTab == 5) ? ' tabbedContainer-open' : '' %>">
+            <%- include('includes/torneioSubstituicoes.ejs') %>
+        </div>
+        <% if(loggedUser.level === 10){ %>
+            <div id="fases" class="tabbedContainer<%= (locals.selectedTab && selectedTab == 3) ? ' tabbedContainer-open' : '' %>">
+                <%- include('includes/torneioFases.ejs') %>
+            </div>
+            <div id="definicoes" class="tabbedContainer<%= (locals.selectedTab && selectedTab == 4) ? ' tabbedContainer-open' : '' %>">
+                <%- include('includes/torneioDefinicoes.ejs') %>
+            </div>
+        <% } %>
+        <div class="inputBtnBar">
+            <input type="submit" name="actualizar" value="Actualizar" class="btn btn-primary">
+            <a href="/admin/torneios" class="btn-cancel">Cancelar</a>
+        </div>
+        </form>
+    </div>
+</div>
+
+<script src="/js/substituicoesCustomSelect.js"></script>
+<script src="/js/torneios.js"></script>
+<%- include('../includes/footer.ejs') %>

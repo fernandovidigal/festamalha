@@ -1,0 +1,56 @@
+<%- include('../includes/header.ejs') %>
+<div class="dummyTopSpacer"></div>
+<%- include('../includes/breadcrumbs.ejs') %>
+
+<div class="container_wrapper">
+    <div class="actionBar__wrapper">
+        <h2 class="actionBar__title">Adicionar Escalão</h2>
+    </div>
+
+    <div class="form__wrapper">
+        <form action="/admin/escaloes/adicionarEscalao" method="post" class="form">
+            <div class="formInput__wrapper">
+                <label for="designacao" class="inputLabel">Designação do escalão <span class="labelRequiredField">*</span></label>
+                <input type="text" name="designacao" size="60" autofocus required
+                    <% if(locals.escalao){ %>
+                        value="<%= escalao.designacao %>"
+                    <% } %>
+                    <% if(locals.validationErrors && validationErrors[0].param === 'designacao'){ %>
+                        class="inputError"
+                    <% } %>
+                >
+                <% if(locals.validationErrors && validationErrors[0].param === 'designacao'){ %>
+                    <p class="inputErrorMsg">
+                        <%= validationErrors[0].msg %>
+                    </p>
+                <% } %>
+            </div>
+            <div class="formInput__wrapper">
+                <div class="radioButtons__wrapper">
+                    <label class="inputRadioContainer">Masculino
+                        <input type="radio" name="sexo" value="1" required
+                            <%  if(locals.escalao && escalao.sexo == 1){ %>
+                                    checked
+                            <% } %>
+                        >
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="inputRadioContainer">Feminino
+                        <input type="radio" name="sexo" value="0" required
+                            <%  if(locals.escalao && escalao.sexo == 0){ %>
+                                    checked
+                            <% } %>
+                        >
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="inputBtnBar">
+                <input type="submit" value="Adicionar" class="btn btn-primary">
+                <a href="/admin/escaloes" class="btn-cancel">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<%- include('../includes/footer.ejs') %>

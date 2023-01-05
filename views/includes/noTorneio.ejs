@@ -1,0 +1,20 @@
+<%- include('../includes/header.ejs') %>
+<div class="dummyTopSpacer"></div>
+<%- include('../includes/breadcrumbs.ejs') %>
+
+<div class="noTorneio__wrapper">
+    <div class="noTorneio">
+        <svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256"><g transform="translate(0 0)"><path d="M243.5,387.232V371.5a5,5,0,0,0-5-5h-39v-15a5,5,0,0,0-5-5H133V336a5,5,0,1,0-10,0v10.5H61.5a5,5,0,0,0-5,5v15h-39a5,5,0,0,0-5,5v15.732a17.5,17.5,0,1,0,10,0V376.5h78v10.732a17.5,17.5,0,1,0,10,0V371.5a5,5,0,0,0-5-5h-39v-10h123v10h-39a5,5,0,0,0-5,5v15.732a17.5,17.5,0,1,0,10,0V376.5h78v10.732a17.5,17.5,0,1,0,10,0ZM25,404a7.5,7.5,0,1,1-7.5-7.5A7.509,7.509,0,0,1,25,404Zm88,0a7.5,7.5,0,1,1-7.5-7.5A7.509,7.509,0,0,1,113,404Zm45,0a7.5,7.5,0,1,1-7.5-7.5A7.509,7.509,0,0,1,158,404Zm80.5,7.5A7.5,7.5,0,1,1,246,404,7.509,7.509,0,0,1,238.5,411.5Z" transform="translate(0 -165.5)" fill="#eee"/><circle cx="5" cy="5" r="5" transform="translate(123 145)" fill="#eee"/><path d="M153.345,67.328a37.711,37.711,0,0,0,19.649,20.031V105.5h-17.5a5,5,0,0,0-5,5v15h-12.5a5,5,0,0,0-5,5v20a5,5,0,0,0,5,5h27.5a5,5,0,0,0,0-10h-22.5v-10h90v10h-22.5a5,5,0,0,0,0,10h27.5a5,5,0,0,0,5-5v-20a5,5,0,0,0-5-5h-12.5v-15a5,5,0,0,0-5-5h-17.5V87.359a37.714,37.714,0,0,0,19.65-20.035,36.564,36.564,0,0,0,32.849-33.192c.012-.144,0-19.132,0-19.132a5,5,0,0,0-5-5h-25V5a5,5,0,0,0-5-5h-65a5,5,0,0,0-5,5v5h-25.5a5,5,0,0,0-5,5s-.012,18.988,0,19.132c1.525,17.535,15.87,31.508,33.351,33.2ZM215.494,125.5h-55v-10h55Zm-22.5-35v15h-10v-15Zm-5-10a27.531,27.531,0,0,1-27.5-27.5V30h55V53A27.531,27.531,0,0,1,187.994,80.5Zm57.5-60.5V33.472A26.357,26.357,0,0,1,225.3,56.778a37.756,37.756,0,0,0,.19-3.779V20Zm-85-10h55V20h-55Zm-30.5,10h20.5V53a37.7,37.7,0,0,0,.19,3.776,26.875,26.875,0,0,1-20.69-23.3Z" transform="translate(-59.994)" fill="#eee"/></g></svg>
+        <div class="equipasWarning__text-wrapper">
+            <h2 class="equipasWarning__text">Não existem Torneios registados ou activos</h2>
+            <p class="equipasWarning__subText">Deve adicionar torneios para iniciar a competição</p>
+        </div>
+        <% if(loggedUser.level === 10 || loggedUser.level === 5){ %>
+            <a href="/admin/torneios" class="btn btn-secondary noTorneio_btn">Ver Torneios</a>
+        <% } else { %>
+            <p class="noTorneio__subTitle">Contacte o administrador para adicionar/activar Torneios</p>
+        <% } %>
+    </div>
+</div>
+
+<%- include('../includes/footer.ejs') %>

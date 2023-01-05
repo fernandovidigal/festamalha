@@ -1,0 +1,50 @@
+<%- include('../includes/header.ejs') %>
+<div class="dummyTopSpacer"></div>
+<%- include('../includes/breadcrumbs.ejs') %>
+
+<div class="container_wrapper">
+    <div class="actionBar__wrapper">
+        <h2 class="actionBar__title">Editar Escalão</h2>
+    </div>
+
+    <div class="form__wrapper">
+        <% if(typeof escalao !== 'undefined'){ %>
+            <form action="/admin/escaloes/editarEscalao/<%= escalao.escalaoId %>?_method=PUT" method="post" class="form">
+                <div class="formInput__wrapper">
+                    <label for="designacao" class="inputLabel">Designação do escalão <span class="labelRequiredField">*</span></label>
+                    <input type="text" name="designacao" size="60" value="<%= escalao.designacao %>" autofocus required
+                        <% if(typeof validationErrors != 'undefined' && validationErrors[0].param === 'designacao'){ %>
+                            class="inputError"
+                        <% } %>
+                    >
+                    <% if(typeof validationErrors != 'undefined' && validationErrors[0].param === 'designacao'){ %>
+                        <p class="inputErrorMsg">
+                            <%= validationErrors[0].msg %>
+                        </p>
+                    <% } %>
+                </div>
+                <div class="formInput__wrapper">
+                    <div class="radioButtons__wrapper">
+                        <label class="inputRadioContainer">Masculino
+                            <input type="radio" name="sexo" value="1" <% if(escalao.sexo == 1) { %>checked<% } %> required>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="inputRadioContainer">Feminino
+                            <input type="radio" name="sexo" value="0" <% if(escalao.sexo == 0) { %>checked<% } %> required>
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="inputBtnBar">
+                    <input type="submit" value="Actualizar" class="btn btn-primary">
+                    <a href="/admin/escaloes" class="btn-cancel">Cancelar</a>
+                </div>
+            </form>
+        <% } else { %>
+            <h1>Oops...Algo correu mal!</h1>
+            <a href="/admin/escaloes">Voltar</a>
+        <% } %>   
+    </div>
+</div>
+
+<%- include('../includes/footer.ejs') %>

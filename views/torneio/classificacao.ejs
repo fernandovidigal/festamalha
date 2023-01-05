@@ -1,0 +1,113 @@
+<%- include('../includes/header.ejs') %>
+
+<% if(torneio != null){ %>
+    <div class="barraTorneio">
+        <div class="barraTorneio__title">
+            <h1><%= torneio.designacao %></h1>
+            <h3><%= torneio.localidade %>, <%= torneio.ano %></h3>
+        </div>
+        <div class="barraTorneio__buttons">
+            <button class="btn btn-print" data-escalao="<%= escalao.escalaoId %>" data-fase="<%= fase %>" data-campo="<%= campo %>"><i class="fas fa-print"></i></button>
+        </div>
+    </div>
+
+    <%- include('../includes/breadcrumbs.ejs') %>
+    <div class="container_wrapper">
+        <div class="actionBar__wrapper">
+            <h2 class="actionBar__title">Classificação <span class="numEquipas__Badge"><%= escalao.designacao %></span></h2>
+
+            <div class="actionBar__buttons">
+                <div class="customSelect">
+                    <div class="customSelect__header">
+                        <%= (campo == 0) ? 'Todos os Campos' : 'Campo ' + campo %>
+                    </div>
+                    <div class="customSelect__list customSelect__campos__list">
+                        <a href="/torneio/classificacao/escalao/<%= escalao.escalaoId %>/fase/<%= fase %>/campo/0" class="customSelect__campos-link customSelect__campos-all-link <%= (campo == 0) ? 'customSelect__campos-link-selected' : '' %>">Todos os Campos</a>
+                        <table class="customSelect__campos__table">
+                            <tbody>
+                                <% 
+                                    while(listaCampos.length > 0) {
+                                    const _listaCampos = listaCampos.splice(0,5);
+                                %>
+                                    <tr>
+                                        <% _listaCampos.forEach(el => { %>
+                                            <td>
+                                                <a href="/torneio/classificacao/escalao/<%= escalao.escalaoId %>/fase/<%= fase %>/campo/<%= el.campo %>" class="customSelect__campos-link <%= (campo != 0 && campo == el.campo) ? 'customSelect__campos-link-selected' : '' %> <%= el.campoCompleto ? 'customSelect__campos-link-completed' : '' %>">
+                                                    <%= (fase != 100) ? el.campo : el.designacao %>
+                                                </a>
+                                            </td>
+                                        <% }); %>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div> 
+                <div class="customSelect">
+                    <div class="customSelect__header">
+                        <%= (fase != 100) ? fase + 'ª Fase' : 'Fase Final' %>
+                    </div>
+                    <div class="customSelect__list">
+                        <% listaFases.forEach(function(el){ %>
+                            <a class="customSelect__links<%= el.fase == fase ? ' customSelect__links-selected': '' %>" href="/torneio/classificacao/escalao/<%= escalao.escalaoId %>/fase/<%= el.fase %>/campo/0"><%= (el.fase != 100) ? el.fase + 'ª Fase' : ' Fase Final' %></a>
+                        <% }); %>
+                    </div>
+                </div>  
+            </div>
+        </div>
+
+        <div class="classificacao__wrapper">
+        <% if(classificacao.length > 0) { %>
+            <% classificacao.forEach(function(campo){ %>
+                <% let posicao = (fase != 100)? 1 : campo.inicioClassificacao %>
+                <p class="registoParciais__campoTitle <%= (fase != 100) ? 'registoParciais__campoTitle-spacer' : ''%>">Campo <%= campo.campo %></p>
+                <% if(fase == 100){ %>
+                    <p class="registoParciais__campoSubTitle"><%= campo.designacao %></p>
+                <% } %>
+                <table class="mainTable">
+                    <thead>
+                        <tr>
+                            <th class="mainTable__smallHeader">Classificação</th>
+                            <th class="mainTable__smallHeader">Equipa</th>
+                            <th class="mainTable-headerElement-left" colspan="2">Elementos</th>
+                            <th class="mainTable-headerElement-left" width="15%">Localidade</th>
+                            <th width="10%">Parciais Acumulados</th>
+                            <th width="10%">Jogos Ganhos</th>
+                            <th width="10%">Pontuação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if(campo.classificacao.length > 0) { %>
+                            <% campo.classificacao.forEach(function(equipa){ %>
+                                <tr <%= (posicao == 1 || (fase == 1 && posicao == 2)) ? 'class=classificacao__Apurados' : ''  %>>
+                                    <td align="center"><%= posicao++ %>º</td>
+                                    <td align="center"><%= equipa.equipaId %></td>
+                                    <td class="primeiroElemento"><%= equipa.primeiroElemento %></td>
+                                    <td><%= equipa.segundoElemento %></td>
+                                    <td><%= equipa.localidade %></td>
+                                    <td align="center"><%= equipa.parciaisAcumulados %></td>
+                                    <td align="center"><%= equipa.vitorias %></td>
+                                    <td align="center"><%= equipa.pontos %></td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="6">Não existem classificações.</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            <% }); %>
+        <% } else { %>
+
+        <% } %>
+        </div>
+    </div>
+<% } else { %>
+    <%- include('../includes/noTorneio.ejs') %>
+<% } %>
+
+<script src="/js/customSelect.js"></script>
+<script src="/js/classificacao.js"></script>
+
+<%- include('../includes/footer.ejs') %>

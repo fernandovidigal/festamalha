@@ -1,0 +1,57 @@
+<%- include('../includes/header.ejs') %>
+<div class="dummyTopSpacer"></div>
+<%- include('../includes/breadcrumbs.ejs') %>
+
+<div class="container_wrapper">
+  <div class="actionBar__wrapper">
+    <h2 class="actionBar__title">Configurações</h2>
+  </div>
+
+  <div class="table__wrapper">
+    <p class="table__title">Servidor</p>
+    <table class="mainTable">
+      <tbody>
+        <tr>
+          <td>Porta</td>
+          <td class="detalhesBtn__column"><input type="text" name="serverPort" id="serverPort" value="<%= config.server.port %>" size="12" /></td>
+          <td class="detalhesBtn__column"><a class="btn btn-secondary changeServerPort-btn">Guardar</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="table__wrapper">
+    <p class="table__title">Equipas Aleatórias</p>
+    <table class="mainTable">
+      <tbody>
+        <tr>
+          <td>Gerar Equipas Aleatórias</td>
+          <td class="detalhesBtn__column"><button class="btn-switch btn-switch-on <%= (config.faker) ? 'btn-switch-on--selected' : '' %>">Lig.</button><button class="btn-switch btn-switch-off <%= (!config.faker) ? 'btn-switch-off--selected' : '' %>">Deslig.</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!--<div class="table__wrapper">
+        <p class="table__title">Servidor Web</p>
+        <table class="mainTable">
+            <tbody>
+                <tr>
+                    <td colspan="2">Syncronizar ao Iniciar Aplicação</td>
+                    <td class="detalhesBtn__column"><button class="btn-SyncSwitch btn-SyncSwitch-on <%= (config.sync) ? 'btn-SyncSwitch-on--selected' : '' %>">Lig.</button><button class="btn-SyncSwitch btn-SyncSwitch-off <%= (!config.sync) ? 'btn-SyncSwitch-off--selected' : '' %>">Deslig.</button></td>
+                </tr>
+                <tr>
+                    <td>Endereço API</td>
+                    <td class="detalhesBtn__column enderecoWeb__input-wrapper">
+                        <input type="text" name="enderecoWeb" id="enderecoWeb" value="<%= config.syncUrl %>" size="60">
+                        <button class="testConnection__btn <%= (config.syncUrl) ? 'testConnection__btn-show' : '' %>">Testar Ligação</button>
+                    </td>
+                    <td align="right" class="detalhesBtn__column"><a class="btn btn-secondary changeEnderecoWeb-btn">Guardar</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>-->
+</div>
+
+<script src="/js/configuracoes.js"></script>
+<%- include('../includes/footer.ejs') %>

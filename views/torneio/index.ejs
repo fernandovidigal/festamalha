@@ -1,0 +1,130 @@
+<%- include('../includes/header.ejs') %>
+
+<% if(torneio != null){ %>
+    <div class="barraTorneio">
+        <div class="barraTorneio__title">
+            <h1><%= torneio.designacao %></h1>
+            <h3><%= torneio.localidade %>, <%= torneio.ano %></h3>
+        </div>
+        <div class="barraTorneio__buttons">
+            <a href="/torneio/classificacao/escalao/<%= info.escalaoId %>/fase/<%= info.fase %>/campo/<%= info.campo %>" class="btn btn-primary">Ver Classificação</a>
+            <button class="btn btn-print"><i class="fas fa-print"></i></button>
+        </div>
+    </div>
+
+    <%- include('../includes/breadcrumbs.ejs') %>
+
+    <div class="container_wrapper">
+        <div class="actionBar__wrapper">
+            <h2 class="actionBar__title"><%= info.escalao.designacao %> (<%= (info.escalao.sexo == 1) ? 'Masculinos' : 'Femininos' %>)<span class="numEquipas__Badge"><%= (info.fase != 100) ? info.fase + 'ª Fase' : 'Fase Final' %></span></h2>
+
+            <div class="actionBar__buttons">
+                <div class="customSelect">
+                    <div class="customSelect__header">
+                        <%= (info.campo == 0) ? 'Todos os Campos' : 'Campo ' + info.campo %>
+                    </div>
+                    <div class="customSelect__list customSelect__campos__list">
+                        <a href="/torneio/resultados/escalao/<%= info.escalaoId %>/fase/<%= info.fase %>/campo/0" class="customSelect__campos-link customSelect__campos-all-link <%= (info.campo == 0) ? 'customSelect__campos-link-selected' : '' %>">Todos os Campos</a>
+                        <table class="customSelect__campos__table">
+                            <tbody>
+                                <% while(listaCampos.length > 0) {
+                                    const _listaCampos = listaCampos.splice(0,5);
+                                %>
+                                    <tr>
+                                        <% _listaCampos.forEach((campo, index) => { %>
+                                            <td>
+                                                <a href="/torneio/resultados/escalao/<%= info.escalaoId %>/fase/<%= info.fase %>/campo/<%= campo.campo %>" class="customSelect__campos-link <%= (info.campo != 0 && info.campo == campo.campo) ? 'customSelect__campos-link-selected' : '' %> <%= campo.campoCompleto ? 'customSelect__campos-link-completed' : '' %>">
+                                                    <%= (info.fase != 100) ? campo.campo : campo.designacao %>
+                                                </a>
+                                            </td>
+                                        <% }); %>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div> 
+                <div class="customSelect">
+                    <div class="customSelect__header">
+                        <%= (info.fase != 100) ? info.fase + 'ª Fase' : 'Fase Final' %>
+                    </div>
+                    <div class="customSelect__list">
+                        <% info.listaFases.forEach(function(fase){ %>
+                            <a class="customSelect__links<%= fase == info.fase ? ' customSelect__links-selected': '' %>" href="/torneio/resultados/escalao/<%= info.escalaoId %>/fase/<%= fase %>/campo/0"><%= (fase != 100) ? fase + 'ª Fase' : ' Fase Final' %></a>
+                        <% }); %>
+                    </div>
+                </div>  
+            </div>
+        </div>
+
+        <div class="registoParciais__wrapper">
+            <% if(typeof campos != 'undefined' && campos.length > 0) { %>
+                <% campos.forEach(campo => { %>
+                    <p class="registoParciais__campoTitle <%= (info.fase != 100) ? 'registoParciais__campoTitle-spacer' : ''%>">Campo <%= campo.campo %></p>
+                    <% if(info.fase == 100){ %>
+                        <p class="registoParciais__campoSubTitle"><%= campo.designacao %></p>
+                    <% } %>
+                    <table class="mainTable">
+                        <thead>
+                            <tr>
+                                <th width="5%">Equipa</th>
+                                <th class="mainTable-headerElement-left" colspan="2">Elementos</th>
+                                <th class="mainTable-headerElement-left" width="15%">Localidade</th>
+                                <th class="mainTable_parcial">Jogo 1</th>
+                                <th class="mainTable_parcial">Jogo 2</th>
+                                <th class="mainTable_parcial">Jogo 3</th>
+                                <th width="8%">Pontos</th>
+                                <% if(info.editavel){ %>
+                                    <th width="1%"></th>
+                                <% } %>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% campo.jogos.forEach(function(jogo){ %>
+                                <tr class="jogoInfo">
+                                    <td align="center"><%= jogo.equipa1Id %><span class="jogosTableBrSeparator equipasSeparador"><%= jogo.equipa2Id %></span></td>
+                                    <td class="primeiroElemento"><%= jogo.equipa1PrimeiroElemento %><span class="jogosTableBrSeparator equipasSeparador"><%= jogo.equipa2PrimeiroElemento %></span></td>
+                                    <td><%= jogo.equipa1SegundoElemento %><span class="jogosTableBrSeparator equipasSeparador"><%= jogo.equipa2SegundoElemento %></span></td>
+                                    <td><%= jogo.equipa1Localidade %><span class="jogosTableBrSeparator equipasSeparador"><%= jogo.equipa2Localidade %></span></td>
+                                    <td align="center"><span><input type="text" class="parcial equipa1_parcial1" name="equipa1_parcial1" size="5" maxlength="2"></span><span class="jogosTableBrSeparator"><input type="text" class="parcial equipa2_parcial1" name="equipa2_parcial1" size="5" maxlength="2"></span></td>
+                                    <td align="center"><span><input type="text" class="parcial equipa1_parcial2" name="equipa1_parcial2" size="5" maxlength="2"></span><span class="jogosTableBrSeparator"><input type="text" class="parcial equipa2_parcial2" name="equipa2_parcial2" size="5" maxlength="2"></span></td>
+                                    <td align="center"><span><input type="text" class="parcial equipa1_parcial3" name="equipa1_parcial3" size="5" maxlength="2"></span><span class="jogosTableBrSeparator"><input type="text" class="parcial equipa2_parcial3" name="equipa2_parcial3" size="5" maxlength="2"></span></td>
+                                    <td align="center"><span class="equipa1_pontos"></span><span class="jogosTableBrSeparator equipasSeparador equipa2_pontos"></span></td>
+                                    <td align="center" class="btn_wrapper"><a class="btn btn-secondary btn__guardar-resultados" name="guardaResultados" data-jogoid="<%= jogo.jogoId %>">Guardar</a></td>
+                                </tr>
+                            <% }); %>
+
+                            <% campo.jogosFinalizados.forEach(function(jogo){ %>
+                                <tr class="jogoInfo">
+                                    <td align="center"><%= jogo.equipa1Id %><span class="jogosTableBrSeparator equipasSeparador"><%= jogo.equipa2Id %></span></td>
+                                    <td class="primeiroElemento"><%= jogo.equipa1PrimeiroElemento %><span class="jogosTableBrSeparator equipasSeparador"><%= jogo.equipa2PrimeiroElemento %></span></td>
+                                    <td><%= jogo.equipa1SegundoElemento %><span class="jogosTableBrSeparator equipasSeparador"><%= jogo.equipa2SegundoElemento %></span></td>
+                                    <td><%= jogo.equipa1Localidade %><span class="jogosTableBrSeparator equipasSeparador"><%= jogo.equipa2Localidade %></span></td>
+                                    <td align="center"><span><input type="text" class="parcial equipa1_parcial1" name="equipa1_parcial1" size="5" maxlength="2" value="<%= jogo.equipa1Parciais.parcial1 %>" disabled></span><span class="jogosTableBrSeparator"><input type="text" class="parcial equipa2_parcial1" name="equipa2_parcial1" size="5" maxlength="2" value="<%= jogo.equipa2Parciais.parcial1 %>" disabled></span></td>
+                                    <td align="center"><span><input type="text" class="parcial equipa1_parcial2" name="equipa1_parcial2" size="5" maxlength="2" value="<%= jogo.equipa1Parciais.parcial2 %>" disabled></span><span class="jogosTableBrSeparator"><input type="text" class="parcial equipa2_parcial2" name="equipa2_parcial2" size="5" maxlength="2" value="<%= jogo.equipa2Parciais.parcial2 %>" disabled></span></td>
+                                    <td align="center"><span><input type="text" class="parcial equipa1_parcial3" name="equipa1_parcial3" size="5" maxlength="2" value="<%= jogo.equipa1Parciais.parcial3 %>" disabled></span><span class="jogosTableBrSeparator"><input type="text" class="parcial equipa2_parcial3" name="equipa2_parcial3" size="5" maxlength="2" value="<%= jogo.equipa2Parciais.parcial3 %>" disabled></span></td>
+                                    <td align="center"><span class="equipa1_pontos"><%= jogo.equipa1Pontos %></span><span class="jogosTableBrSeparator equipasSeparador equipa2_pontos"><%= jogo.equipa2Pontos %></span></td>
+                                    <% if(info.editavel){ %>
+                                        <td align="center" class="btn_wrapper"><a class="btn btn-tertiary btn__edit-resultados" name="editarResultados" data-jogoid="<%= jogo.jogoId %>"">Editar</a></td>
+                                    <% } %>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                
+                
+                
+                <% }); %>
+            <% } else { %>
+                <h2>Oops.. Algo correu mal!</h2>
+            <% } %>
+        </div>
+
+    </div>
+<% } else { %>
+    <%- include('../includes/noTorneio.ejs') %>
+<% } %>
+
+<script src="/js/customSelect.js"></script>
+<script src="/js/jogos.js"></script>
+<%- include('../includes/footer.ejs') %>
